@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -40,7 +41,7 @@ public:
         time_from_start.push_back(time);
     }
 
-    std::vector<uint32_t> GetTimeFromStart() const{
+    std::vector<uint32_t> GetTimeFromStart() const {
         return time_from_start;
     }
 
@@ -121,7 +122,7 @@ void Subway::CreateMap() {
 // calculation of the distance between two stations, given that at this
 // moment we can do a transfer and we will have to wait for the train
 uint32_t Subway::LengthCalculate(uint32_t from, uint32_t to, uint32_t time_come, std::vector<uint32_t> parents) {
-    if(branch_where_station[from].GetNumber() ==  branch_where_station[to].GetNumber()) {
+    if (branch_where_station[from].GetNumber() == branch_where_station[to].GetNumber()) {
         return graph[from][to];
     } else {
         Branch our_branch = branch_where_station[to];
@@ -152,10 +153,10 @@ std::pair<std::vector<std::string>, uint32_t> Subway::Request(std::string from, 
             break;
         }
         used[min_distance] = true;
-        for(uint32_t j = 0; j < size(); ++j) {
-            if(graph[min_distance][j] != INF) {
+        for (uint32_t j = 0; j < size(); ++j) {
+            if (graph[min_distance][j] != INF) {
                 uint32_t length = LengthCalculate(min_distance, j, time_come, parent);
-                if(distance[min_distance] + length < distance[j]) {
+                if (distance[min_distance] + length < distance[j]) {
                     distance[j] = distance[min_distance] + length;
                     parent[j] = min_distance;
                 }
@@ -163,11 +164,11 @@ std::pair<std::vector<std::string>, uint32_t> Subway::Request(std::string from, 
         }
     }
     uint32_t result_distance = distance[finish];
-    if(result_distance == INF) {
+    if (result_distance == INF) {
         return std::make_pair(std::vector<std::string>(0), INF);
     } else {
         std::vector<std::string> path;
-        for(int v = finish; v != start; v = parent[v]) {
+        for (int v = finish; v != start; v = parent[v]) {
             path.push_back(number_in_name[v]);
         }
         path.push_back(from);
@@ -214,15 +215,15 @@ int main() {
     std::cout << "Make a request: ";
     std::string from, to;
     uint32_t minute;
-    std:: cin >> from >> to >> minute;
+    std::cin >> from >> to >> minute;
     std::pair<std::vector<std::string>, uint32_t> ans = subway.Request(from, to, minute);
-    if(ans.second == INF) {
+    if (ans.second == INF) {
         std::cout << "No way";
     } else {
-        for(auto i : ans.first) {
-            std:: cout << i << " ";
+        for (auto i : ans.first) {
+            std::cout << i << " ";
         }
-        std::cout << "\nLength : "<< ans.second;
+        std::cout << "\nLength : " << ans.second;
     }
     return 0;
 }
